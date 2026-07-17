@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "beacon: build",
+      "dependsOn": ["beacon: compile extension", "beacon: build webview"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "beacon: compile extension",
+      "type": "npm",
+      "script": "compile",
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "beacon: build webview",
+      "type": "npm",
+      "script": "build:webview",
+      "problemMatcher": []
+    }
+  ]
+}

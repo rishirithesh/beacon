@@ -1,0 +1,75 @@
+{
+  "name": "beacon",
+  "displayName": "Beacon",
+  "description": "Understand the cause, not the symptom. A context-aware diagnostics engine for developers.",
+  "version": "0.1.0",
+  "publisher": "beacon-dev",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Debuggers", "Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "beacon.investigateError",
+        "title": "Beacon: Investigate Error",
+        "icon": "$(search-fuzzy)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "beacon.investigateError",
+          "group": "navigation",
+          "when": "editorHasSelection || editorTextFocus"
+        }
+      ],
+      "commandPalette": [
+        { "command": "beacon.investigateError" }
+      ]
+    },
+    "configuration": {
+      "title": "Beacon",
+      "properties": {
+        "beacon.gemini.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Gemini API key used only as a fallback when local diagnosis is inconclusive. Stored via VS Code SecretStorage is preferred; this setting is a convenience fallback."
+        },
+        "beacon.gemini.model": {
+          "type": "string",
+          "default": "gemini-2.0-flash",
+          "description": "Gemini model used for AI investigation fallback."
+        },
+        "beacon.cache.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Cache analysis results for unchanged files."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "node esbuild.js --production",
+    "lint": "eslint src --ext ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/**/*.test.ts",
+    "build:webview": "cd webview-ui && npm install && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "esbuild": "^0.20.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.3.3",
+    "tsx": "^4.19.2"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  }
+}
